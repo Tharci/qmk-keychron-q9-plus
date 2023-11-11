@@ -22,9 +22,10 @@ enum layers {
     LY_FNC,
     LY_FNC_SH,
     LY_GAMING,
-    LY_GAMING_FN,
+    LY_FN_GAMING,
+    LY_GAMING_NUMPAD,
+    LY_FN_SPACE,
     LY_FN1,
-    LY_FN2,
 };
 
 enum custom_keys_tharci {
@@ -96,7 +97,7 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
 
         case TD_SINGLE_HOLD:
             if (gaming) {
-                layer_on(LY_GAMING_FN);
+                layer_on(LY_FN_GAMING);
             }
             else {
                 layer_on(LY_FNC);
@@ -124,7 +125,7 @@ static void td_caps_layers_reset(tap_dance_state_t *state, void *user_data) {
 
     layer_off(LY_FNC);
     layer_off(LY_FNC_SH);
-    layer_off(LY_GAMING_FN);
+    layer_off(LY_FN_GAMING);
 
     caps_layers_tap_state.state = TD_NONE;
 }
@@ -140,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_HOME,
         TD(TD_CAPS_LAYERS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           LALT(KC_Q),
         KC_LSFT,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               KC_RSFT, KC_UP,
-        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN1),      KC_SPC,                    MO(LY_FN1),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
+        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN1),      KC_SPC,                    MO(LY_FN_SPACE),           KC_RALT,  MO(LY_FN1), _______,  KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LY_FNC] = LAYOUT_54_ansi(
         KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, _______, KC_UP, _______, _______,  KC_HOME,     KC_END,  KC_DEL,          KC_END,
@@ -158,27 +159,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          _______,
         _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
-        _______, _______,  _______,  MO(LY_FNC),          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
-    [LY_GAMING_FN] = LAYOUT_54_ansi(
+    [LY_FN_GAMING] = LAYOUT_54_ansi(
         KC_ESC, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   _______,          _______,
         _______,  KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     _______,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
-    [LY_FN1] = LAYOUT_54_ansi(
+    [LY_GAMING_NUMPAD] = LAYOUT_54_ansi(
+        _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          _______,
+        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
+        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, KC_KP_8,
+        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  KC_KP_4, KC_KP_5, KC_KP_6),
+
+    [LY_FN_SPACE] = LAYOUT_54_ansi(
         KC_GRV, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   KC_BSLS,          KC_MUTE,
         _______,  KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,               KC_EQL,          _______,
         _______,           _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
-    [LY_FN2] = LAYOUT_54_ansi(
-        _______, KC_VOLU, KC_MNXT, KC_BRIU, RGB_VAD,  _______, _______, _______, _______, _______, _______,  _______,     _______,  _______,          RGB_TOG,
-        _______, KC_VOLD, KC_MPRV, KC_BRID, RGB_VAI,  _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
+    [LY_FN1] = LAYOUT_54_ansi(
+        _______, KC_VOLU, KC_MNXT, KC_BRIU, RGB_VAI,  _______, _______, _______, _______, _______, _______,  _______,     _______,  _______,          RGB_TOG,
+        _______, KC_VOLD, KC_MPRV, KC_BRID, RGB_VAD,  TG(LY_GAMING_NUMPAD), _______, _______, _______, _______, _______,  _______,               _______,          _______,
         _______,           KC_MUTE, KC_MPLY, KC_CALC, _______, _______,  _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
-    //[LY_FN2] = LAYOUT_54_ansi(
+    //[LY_FN1] = LAYOUT_54_ansi(
     //    KC_GRV,  KC_BRID,  KC_BRIU,  KC_TASK, KC_FLXP, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,     KC_VOLU,  _______,          RGB_TOG,
     //    RGB_TOG, RGB_MOD,  RGB_VAI,  RGB_HUI, RGB_SAI, RGB_SPI, _______, _______, _______, _______, _______,  _______,               _______,          _______,
     //    _______,           RGB_RMOD, RGB_VAD, RGB_HUD, RGB_SAD, RGB_SPD, NK_TOGG, _______, _______, _______,  _______,               _______, _______,
@@ -190,10 +197,10 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LY_BASE] = {ENCODER_CCW_CW(KC_LEFT, KC_RIGHT)},
     [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
     [LY_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_GAMING_FN]  = {ENCODER_CCW_CW(_______, _______)},
+    [LY_FN_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
     [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
-    [LY_FN1]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [LY_FN2]      = {ENCODER_CCW_CW(RGB_RMOD, RGB_MOD)}
+    [LY_FN_SPACE]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [LY_FN1]      = {ENCODER_CCW_CW(RGB_RMOD, RGB_MOD)}
 };
 #endif
 
@@ -245,5 +252,33 @@ bool dip_switch_update_user(uint8_t index, bool active) {
 
     return false;
 }
+#endif
+
+void led_set_user(uint8_t led_state) {
+    // Keep num lock turned on for layer
+    if (IS_LAYER_ON(LY_GAMING_NUMPAD) && !(led_state & (1<<HID_KEYBOARD_LED_NUMLOCK))) {
+        tap_code(KC_LNUM);
+    }
+}
+
+#if defined(RGB_MATRIX_ENABLE)
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    int numpad_keys[] = {40, 50, 51, 52};
+
+    if (IS_LAYER_ON(LY_GAMING_NUMPAD)) {
+        for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
+            RGB_MATRIX_INDICATOR_SET_COLOR(numpad_keys[i], 255, 255, 255);
+        }
+    }
+    else {
+        for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
+            RGB_MATRIX_INDICATOR_SET_COLOR(numpad_keys[i], 0, 0, 0);
+        }
+    }
+
+    return true;
+}
+
 #endif
 
