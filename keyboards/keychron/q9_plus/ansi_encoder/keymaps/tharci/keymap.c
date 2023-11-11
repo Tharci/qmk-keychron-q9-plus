@@ -21,6 +21,8 @@ enum layers {
     LY_BASE,
     LY_FNC,
     LY_FNC_SH,
+    LY_GAMING,
+    LY_GAMING_FN,
     LY_FN1,
     LY_FN2,
 };
@@ -36,6 +38,8 @@ enum custom_keys_tharci {
 #define KC_SAVE LCTL(KC_S)
 #define KC_UNDO LCTL(KC_Z)
 #define KC_REDO LCTL(KC_Y)
+
+bool gaming = false;
 
 // Tap Dance declarations
 enum tap_dance {
@@ -91,7 +95,12 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
             break;
 
         case TD_SINGLE_HOLD:
-            layer_on(LY_FNC);
+            if (gaming) {
+                layer_on(LY_GAMING_FN);
+            }
+            else {
+                layer_on(LY_FNC);
+            }
             break;
 
         // case TD_DOUBLE_TAP:
@@ -115,6 +124,7 @@ static void td_caps_layers_reset(tap_dance_state_t *state, void *user_data) {
 
     layer_off(LY_FNC);
     layer_off(LY_FNC_SH);
+    layer_off(LY_GAMING_FN);
 
     caps_layers_tap_state.state = TD_NONE;
 }
@@ -128,7 +138,7 @@ tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LY_BASE] = LAYOUT_54_ansi(
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_HOME,
-        TD(TD_CAPS_LAYERS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           RGB_TOG,
+        TD(TD_CAPS_LAYERS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           LALT(KC_Q),
         KC_LSFT,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               KC_RSFT, KC_UP,
         KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN1),      KC_SPC,                    MO(LY_FN1),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
 
@@ -143,6 +153,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______, _______, _______, _______, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RGHT), _______,  _______,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+
+    [LY_GAMING] = LAYOUT_54_ansi(
+        _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          _______,
+        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
+        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
+        _______, _______,  _______,  MO(LY_FNC),          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+
+    [LY_GAMING_FN] = LAYOUT_54_ansi(
+        KC_ESC, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   _______,          _______,
+        _______,  KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     _______,               _______,          _______,
+        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
+        _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FN1] = LAYOUT_54_ansi(
         KC_GRV, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   KC_BSLS,          KC_MUTE,
@@ -167,8 +189,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LY_BASE] = {ENCODER_CCW_CW(KC_LEFT, KC_RIGHT)},
     [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
-    [LY_FNC_SH]  = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
-    // [LY_GAMING_F1] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [LY_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
+    [LY_GAMING_FN]  = {ENCODER_CCW_CW(_______, _______)},
+    [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
     [LY_FN1]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LY_FN2]      = {ENCODER_CCW_CW(RGB_RMOD, RGB_MOD)}
 };
@@ -211,6 +234,15 @@ void housekeeping_task_user(void) {
 
 #ifdef DIP_SWITCH_ENABLE
 bool dip_switch_update_user(uint8_t index, bool active) {
+    gaming = !active;
+
+    if (gaming) {
+        layer_on(LY_GAMING);
+    }
+    else {
+        layer_off(LY_GAMING);
+    }
+
     return false;
 }
 #endif
