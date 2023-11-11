@@ -52,3 +52,5 @@
 
 /* Old default behavior of mod-taps */
 #define HOLD_ON_OTHER_KEY_PRESS
+
+#define PAL_USE_CALLBACKS TRUE
