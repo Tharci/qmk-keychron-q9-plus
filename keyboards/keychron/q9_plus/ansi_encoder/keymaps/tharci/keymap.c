@@ -180,10 +180,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FN1] = LAYOUT_54_ansi(
-        _______, KC_VOLU, KC_MNXT, KC_BRIU, RGB_VAI,  _______, _______, _______, _______, _______, _______,  _______,     _______,  _______,          RGB_TOG,
-        _______, KC_VOLD, KC_MPRV, KC_BRID, RGB_VAD,  TG(LY_GAMING_NUMPAD), _______, _______, _______, _______, _______,  _______,               _______,          _______,
-        _______,           KC_MUTE, KC_MPLY, KC_CALC, _______, _______,  _______, _______, _______, _______,  _______,               _______, _______,
-        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+        _______, KC_VOLU, KC_MNXT, KC_BRIU, RGB_VAI,  RGB_HUI, RGB_SAI, RGB_SPI, _______, _______, _______,  _______,     _______,  _______,          RGB_TOG,
+        _______, KC_VOLD, KC_MPRV, KC_BRID, RGB_VAD,  RGB_HUD, RGB_SAD, RGB_SPD, _______, _______, _______,  _______,               _______,          _______,
+        _______,           KC_MUTE, KC_MPLY, KC_CALC, _______, _______,  _______, _______, _______, _______,  _______,               _______, TG(LY_GAMING_NUMPAD),
+        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  RGB_MODE_XMAS, RGB_MODE_KNIGHT, RGB_MODE_SNAKE),
 
     //[LY_FN1] = LAYOUT_54_ansi(
     //    KC_GRV,  KC_BRID,  KC_BRIU,  KC_TASK, KC_FLXP, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,     KC_VOLU,  _______,          RGB_TOG,
