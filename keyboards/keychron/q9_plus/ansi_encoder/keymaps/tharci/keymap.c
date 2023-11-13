@@ -17,6 +17,24 @@
 #include QMK_KEYBOARD_H
 #include "keychron_common.h"
 
+// TODO: try to fix this
+// only needed for intellisense to work
+#ifndef MATRIX_COLS
+#    define MATRIX_COLS 15
+#endif // MATRIX_COLS
+
+#ifndef MATRIX_ROWS
+#    define MATRIX_ROWS 4
+#endif // MATRIX_ROWS
+
+#ifndef ENCODERS_PAD_A
+#    define ENCODERS_PAD_A { B4 }
+#endif // ENCODERS_PAD_A
+
+#ifndef ENCODERS_PAD_B
+#    define ENCODERS_PAD_B { B5 }
+#endif // ENCODERS_PAD_B
+
 enum layers {
     LY_BASE,
     LY_FNC,
@@ -198,7 +216,6 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
     [LY_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
     [LY_FN_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FNC]  = {ENCODER_CCW_CW(KC_UP, KC_DOWN)},
     [LY_FN_SPACE]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LY_FN1]      = {ENCODER_CCW_CW(RGB_RMOD, RGB_MOD)}
 };
