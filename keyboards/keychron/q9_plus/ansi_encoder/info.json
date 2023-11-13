@@ -4,6 +4,9 @@
         "device_version": "1.0.0"
     },
     "rgb_matrix": {
+        "sat_steps": 8,
+        "speed_steps": 12,
+        "val_steps": 8,
         "layout": [
             {"matrix":[0, 0],  "flags":1, "x":2,   "y":0},
             {"matrix":[0, 1],  "flags":4, "x":20,  "y":0},
