@@ -14,6 +14,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "quantum.h"
+#include <caps_word.h>
 #include QMK_KEYBOARD_H
 #include "keychron_common.h"
 
@@ -112,7 +114,10 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
 
     switch (caps_layers_tap_state.state) {
         case TD_SINGLE_TAP:
-            tap_code(KC_CAPS);
+            caps_word_on();
+            if (host_keyboard_led_state().caps_lock) {
+                tap_code(KC_CAPS);
+            }
             break;
 
         case TD_SINGLE_HOLD:
@@ -124,9 +129,9 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
             }
             break;
 
-        // case TD_DOUBLE_TAP:
-        //     leader_start();
-        //     break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_CAPS);
+            break;
 
         case TD_DOUBLE_HOLD:
             layer_on(LY_FNC);
@@ -160,11 +165,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LY_BASE] = LAYOUT_54_ansi(
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_HOME,
         TD(TD_CAPS_LAYERS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           LALT(KC_Q),
-        KC_LSFT,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               KC_RSFT, KC_UP,
-        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN1),      KC_SPC,                    MO(LY_FN_SPACE),           KC_RALT,  MO(LY_FN1), _______,  KC_LEFT, KC_DOWN, KC_RGHT),
+        SC_LSPO,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               SC_RSPC, KC_UP,
+        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN_GAMING),      KC_SPC,                    MO(LY_FN_SPACE),           KC_RALT,  MO(LY_FN1), _______,  KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LY_FNC] = LAYOUT_54_ansi(
-        KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, _______, KC_UP, _______, _______,  KC_HOME,     KC_END,  KC_DEL,          KC_END,
+        KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          KC_END,
         _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
@@ -179,7 +184,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          RGB_TOG,
         _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
-        _______, _______,  _______,  MO(LY_FN_GAMING),          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FN_GAMING] = LAYOUT_54_ansi(
         KC_ESC, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   _______,          _______,
@@ -204,12 +209,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_VOLD, KC_MPRV, KC_BRID, RGB_VAD,  RGB_HUD, RGB_SAD, RGB_SPD, _______, _______, _______,  _______,               _______,          _______,
         _______,           KC_MUTE, KC_MPLY, KC_CALC, _______, _______,  _______, _______, _______, _______,  _______,               _______, TG(LY_GAMING_NUMPAD),
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  RGB_MODE_XMAS, RGB_MODE_KNIGHT, RGB_MODE_SNAKE),
-
-    //[LY_FN1] = LAYOUT_54_ansi(
-    //    KC_GRV,  KC_BRID,  KC_BRIU,  KC_TASK, KC_FLXP, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,     KC_VOLU,  _______,          RGB_TOG,
-    //    RGB_TOG, RGB_MOD,  RGB_VAI,  RGB_HUI, RGB_SAI, RGB_SPI, _______, _______, _______, _______, _______,  _______,               _______,          _______,
-    //    _______,           RGB_RMOD, RGB_VAD, RGB_HUD, RGB_SAD, RGB_SPD, NK_TOGG, _______, _______, _______,  _______,               _______, _______,
-    //    _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 };
 
 #if defined(ENCODER_MAP_ENABLE)
@@ -273,6 +272,7 @@ bool dip_switch_update_user(uint8_t index, bool active) {
 }
 #endif
 
+
 void led_set_user(uint8_t led_state) {
     // Keep num lock turned on for layer
     if (IS_LAYER_ON(LY_GAMING_NUMPAD) && !(led_state & (1<<HID_KEYBOARD_LED_NUMLOCK))) {
@@ -280,19 +280,32 @@ void led_set_user(uint8_t led_state) {
     }
 }
 
+
+void update_caps_led(void) {
+    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+        rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, RGB_WHITE);
+    }
+    else {
+        rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, RGB_BLACK);
+    }
+}
+
+
 #if defined(RGB_MATRIX_ENABLE)
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     int numpad_keys[] = {40, 50, 51, 52};
 
+    update_caps_led();
+
     if (IS_LAYER_ON(LY_GAMING_NUMPAD)) {
         for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
-            RGB_MATRIX_INDICATOR_SET_COLOR(numpad_keys[i], 255, 255, 255);
+            rgb_matrix_set_color(numpad_keys[i], RGB_WHITE);
         }
     }
     else {
         for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
-            RGB_MATRIX_INDICATOR_SET_COLOR(numpad_keys[i], 0, 0, 0);
+            rgb_matrix_set_color(numpad_keys[i], RGB_BLACK);
         }
     }
 
@@ -300,4 +313,34 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 #endif
+
+
+void caps_word_set_user(bool active) {
+    update_caps_led();
+}
+
+
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+        case MO(LY_FN_SPACE):
+        case TD(TD_CAPS_LAYERS):
+        case SC_LSPO:
+        case KC_LSFT:
+        case KC_MINS:
+            return true;
+
+        default:
+            return false;  // Deactivate Caps Word.
+    }
+}
 

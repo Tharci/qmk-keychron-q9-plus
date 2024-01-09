@@ -83,4 +83,12 @@ bool is_caps_word_on(void) {
     return caps_word_active;
 }
 
-__attribute__((weak)) void caps_word_set_user(bool active) {}
+#include "rgb_matrix/rgb_matrix.h"
+
+__attribute__((weak)) void caps_word_set_user(bool active) {
+    if (active) {
+        rgb_matrix_set_color(14, RGB_WHITE);
+    } else {
+        // rgb_matrix_set_color(14, RGB_BLACK);
+    }
+}
