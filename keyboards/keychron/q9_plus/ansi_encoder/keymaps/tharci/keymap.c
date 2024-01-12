@@ -114,9 +114,11 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
 
     switch (caps_layers_tap_state.state) {
         case TD_SINGLE_TAP:
-            caps_word_on();
             if (host_keyboard_led_state().caps_lock) {
                 tap_code(KC_CAPS);
+            }
+            else {
+                caps_word_on();
             }
             break;
 
@@ -131,6 +133,7 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
 
         case TD_DOUBLE_TAP:
             tap_code(KC_CAPS);
+            caps_word_off();
             break;
 
         case TD_DOUBLE_HOLD:
@@ -183,7 +186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LY_GAMING] = LAYOUT_54_ansi(
         _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          RGB_TOG,
         _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
-        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
+        KC_LSFT,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               KC_RSFT, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FN_GAMING] = LAYOUT_54_ansi(
@@ -282,7 +285,10 @@ void led_set_user(uint8_t led_state) {
 
 
 void update_caps_led(void) {
-    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+    if (host_keyboard_led_state().caps_lock) {
+        rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, RGB_RED);
+    }
+    else if (is_caps_word_on()) {
         rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, RGB_WHITE);
     }
     else {
