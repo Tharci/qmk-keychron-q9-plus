@@ -118,7 +118,7 @@ static void td_caps_layers_finished(tap_dance_state_t *state, void *user_data) {
                 tap_code(KC_CAPS);
             }
             else {
-                caps_word_on();
+                caps_word_toggle();
             }
             break;
 
