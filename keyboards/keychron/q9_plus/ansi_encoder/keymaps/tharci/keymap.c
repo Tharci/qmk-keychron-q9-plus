@@ -44,14 +44,14 @@ enum layers {
 };
 
 enum custom_keys_tharci {
-    KC_TABLOOP = KEYCHRON_SAFE_RANGE,
+    KC_TABLOOP = KEYCHRON_SAFE_RANGE
 };
 
-//#define KC_SELECT LCTL(KC_A)
-//#define KC_CUT LCTL(KC_X)
-//#define KC_COPY LCTL(KC_C)
-//#define KC_PASTE LCTL(KC_V)
-//#define KC_UNDO LCTL(KC_Z)
+#define KC_SELECT LCTL(KC_A)
+#define KC_CUT LCTL(KC_X)
+#define KC_COPY LCTL(KC_C)
+#define KC_PASTE LCTL(KC_V)
+#define KC_UNDO LCTL(KC_Z)
 #define KC_SAVE LCTL(KC_S)
 #define KC_REDO LCTL(KC_Y)
 
@@ -62,6 +62,7 @@ enum tap_dance {
     TD_CAPS,
     TD_MACRO_1,
     TD_MACRO_2,
+    TD_RIGHT_SPACE,
 };
 
 typedef enum {
@@ -81,11 +82,6 @@ typedef struct {
     td_state_t state;
 } td_tap_t;
 
-static td_tap_t caps_layers_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
-};
-
 
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -103,6 +99,11 @@ td_state_t cur_dance(tap_dance_state_t *state) {
         return TD_UNKNOWN;
     }
 }
+
+static td_tap_t caps_layers_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
 
 static void td_caps_finished(tap_dance_state_t *state, void *user_data) {
     caps_layers_tap_state.state = cur_dance(state);
@@ -153,6 +154,78 @@ static void td_caps_reset(tap_dance_state_t *state, void *user_data) {
     caps_layers_tap_state.state = TD_NONE;
 }
 
+static td_tap_t right_space_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+#ifndef SPACE_NUM_IDLE_TIMEOUT
+#   define SPACE_NUM_IDLE_TIMEOUT 3000
+#endif
+
+static bool is_space_num_on = false;
+static uint16_t space_num_idle_timer = 0;
+
+void space_num_reset_idle_timer(void) {
+    space_num_idle_timer = timer_read() + SPACE_NUM_IDLE_TIMEOUT;
+}
+
+void space_num_on(void) {
+    is_space_num_on = true;
+    layer_on(LY_FN_SPACE);
+    rgb_matrix_set_color(46, RGB_WHITE);
+
+#if SPACE_NUM_IDLE_TIMEOUT > 0
+    space_num_reset_idle_timer();
+#endif // CAPS_WORD_IDLE_TIMEOUT > 0
+}
+
+void space_num_off(void) {
+    is_space_num_on = false;
+    layer_off(LY_FN_SPACE);
+    rgb_matrix_set_color(46, RGB_BLACK);
+}
+
+void space_num_toggle(void) {
+    if (is_space_num_on) {
+        space_num_off();
+    }
+    else {
+        space_num_on();
+    }
+}
+
+void housekeeping_task_space_num(void) {
+    if (is_space_num_on && timer_expired(timer_read(), space_num_idle_timer)) {
+        space_num_off();
+    }
+}
+
+static void td_right_space_finished(tap_dance_state_t *state, void *user_data) {
+    right_space_tap_state.state = cur_dance(state);
+
+    switch (right_space_tap_state.state) {
+        case TD_SINGLE_TAP:
+            space_num_toggle();
+            break;
+
+        case TD_SINGLE_HOLD:
+            layer_on(LY_FN_SPACE);
+            break;
+
+        default:
+            break;
+    }
+}
+
+static void td_right_space_reset(tap_dance_state_t *state, void *user_data) {
+    if (right_space_tap_state.state == TD_SINGLE_HOLD) {
+        layer_off(LY_FN_SPACE);
+    }
+
+    right_space_tap_state.state = TD_NONE;
+}
+
 void td_macro_1(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
         dyn_macro_play(1);
@@ -175,6 +248,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_CAPS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_caps_finished, td_caps_reset),
     [TD_MACRO_1] = ACTION_TAP_DANCE_FN(td_macro_1),
     [TD_MACRO_2] = ACTION_TAP_DANCE_FN(td_macro_2),
+    // [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_DOUBLE(KC_SPACE_NUM, MO(LY_FN_SPACE)),
+    [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_right_space_finished, td_right_space_reset),
 };
 
 
@@ -184,7 +259,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_HOME,
         TD(TD_CAPS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           LALT(KC_Q),
         SC_LSPO,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               SC_RSPC, KC_UP,
-        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN_GAMING),      KC_SPC,                    MO(LY_FN_SPACE),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
+        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN_GAMING),      KC_SPC,                    TD(TD_RIGHT_SPACE),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LY_FNC] = LAYOUT_54_ansi(
         KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          KC_END,
@@ -305,7 +380,30 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 #endif
 
 
+bool process_space_num(uint16_t keycode, keyrecord_t* record) {
+    space_num_reset_idle_timer();
+
+    switch (keycode) {
+        // Keycodes that continue Space Num
+        case KC_1 ... KC_0:
+        case KC_COMMA:
+        case KC_DOT:
+        case MO(LY_FN_SPACE):
+            return true;
+
+        // Deactivate Space Num
+        default:
+            space_num_off();
+            return false;
+    }
+}
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    if (is_space_num_on && !process_space_num(keycode, record)) {
+        return false;
+    }
+
     if (!process_record_keychron(keycode, record)) {
         return false;
     }
@@ -337,6 +435,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
 void housekeeping_task_user(void) {
     housekeeping_task_keychron();
+    housekeeping_task_space_num();
 }
 
 #ifdef DIP_SWITCH_ENABLE
