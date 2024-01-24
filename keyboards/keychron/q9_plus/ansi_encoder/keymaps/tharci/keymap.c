@@ -210,6 +210,7 @@ static void td_right_space_finished(tap_dance_state_t *state, void *user_data) {
             break;
 
         case TD_SINGLE_HOLD:
+            space_num_off();
             layer_on(LY_FN_SPACE);
             break;
 
@@ -389,12 +390,14 @@ bool process_space_num(uint16_t keycode, keyrecord_t* record) {
         case KC_COMMA:
         case KC_DOT:
         case MO(LY_FN_SPACE):
+        // this is a bit of a workaround, so that the toggle won't turn it back on
+        case TD(TD_RIGHT_SPACE):
             return true;
 
         // Deactivate Space Num
         default:
             space_num_off();
-            return false;
+            return true;
     }
 }
 
