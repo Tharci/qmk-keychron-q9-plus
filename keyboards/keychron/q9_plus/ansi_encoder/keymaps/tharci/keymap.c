@@ -63,6 +63,7 @@ enum tap_dance {
     TD_MACRO_1,
     TD_MACRO_2,
     TD_RIGHT_SPACE,
+    TD_GAMING,
 };
 
 typedef enum {
@@ -173,7 +174,6 @@ void space_num_reset_idle_timer(void) {
 void space_num_on(void) {
     is_space_num_on = true;
     layer_on(LY_FN_SPACE);
-    rgb_matrix_set_color(46, RGB_WHITE);
 
 #if SPACE_NUM_IDLE_TIMEOUT > 0
     space_num_reset_idle_timer();
@@ -183,7 +183,6 @@ void space_num_on(void) {
 void space_num_off(void) {
     is_space_num_on = false;
     layer_off(LY_FN_SPACE);
-    rgb_matrix_set_color(46, RGB_BLACK);
 }
 
 void space_num_toggle(void) {
@@ -227,6 +226,37 @@ static void td_right_space_reset(tap_dance_state_t *state, void *user_data) {
     right_space_tap_state.state = TD_NONE;
 }
 
+static td_tap_t gaming_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void td_gaming_each(tap_dance_state_t* state, void* user_data) {
+
+}
+
+static void td_gaming_finished(tap_dance_state_t *state, void *user_data) {
+    gaming_tap_state.state = cur_dance(state);
+
+    switch (gaming_tap_state.state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_DELETE);
+            break;
+
+        case TD_SINGLE_HOLD:
+            layer_on(LY_FN_GAMING);
+            break;
+
+        default:
+            break;
+    }
+}
+
+static void td_gaming_reset(tap_dance_state_t* state, void* user_data) {
+    layer_off(LY_FN_GAMING);
+    gaming_tap_state.state = TD_NONE;
+}
+
 void td_macro_1(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
         dyn_macro_play(1);
@@ -251,6 +281,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_MACRO_2] = ACTION_TAP_DANCE_FN(td_macro_2),
     // [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_DOUBLE(KC_SPACE_NUM, MO(LY_FN_SPACE)),
     [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_right_space_finished, td_right_space_reset),
+    [TD_GAMING] = ACTION_TAP_DANCE_FN_ADVANCED(td_gaming_each, td_gaming_finished, td_gaming_reset),
 };
 
 
@@ -260,7 +291,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_HOME,
         TD(TD_CAPS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           LALT(KC_Q),
         SC_LSPO,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               SC_RSPC, KC_UP,
-        KC_LCTL, KC_LWIN,  KC_LALT,  MO(LY_FN_GAMING),      KC_SPC,                    TD(TD_RIGHT_SPACE),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
+        KC_LCTL, KC_LWIN,  KC_LALT,  TD(TD_GAMING),      KC_SPC,                    TD(TD_RIGHT_SPACE),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LY_FNC] = LAYOUT_54_ansi(
         KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          KC_END,
@@ -389,6 +420,7 @@ bool process_space_num(uint16_t keycode, keyrecord_t* record) {
         case KC_1 ... KC_0:
         case KC_COMMA:
         case KC_DOT:
+        case KC_BSPC:
         case MO(LY_FN_SPACE):
         // this is a bit of a workaround, so that the toggle won't turn it back on
         case TD(TD_RIGHT_SPACE):
@@ -477,6 +509,15 @@ void update_caps_led(void) {
     }
 }
 
+void update_space_num_led(void) {
+    if (is_space_num_on) {
+        rgb_matrix_set_color(46, RGB_WHITE);
+    }
+    else {
+        rgb_matrix_set_color(46, RGB_BLACK);
+    }
+}
+
 
 #if defined(RGB_MATRIX_ENABLE)
 
@@ -484,6 +525,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     int numpad_keys[] = {40, 50, 51, 52};
 
     update_caps_led();
+    update_space_num_led();
 
     if (IS_LAYER_ON(LY_GAMING_NUMPAD)) {
         for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
@@ -518,12 +560,13 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_1 ... KC_0:
         case KC_BSPC:
         case KC_DEL:
-        case KC_UNDS:
+        case KC_MINUS:
+        case KC_UNDERSCORE:
         case MO(LY_FN_SPACE):
+        case TD(TD_RIGHT_SPACE):
         case TD(TD_CAPS):
         case SC_LSPO:
         case KC_LSFT:
-        case KC_MINS:
             return true;
 
         default:
