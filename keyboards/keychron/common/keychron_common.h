@@ -14,6 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef QMK_FIRMWARE_KEYCHRON_COMMON_H
+#define QMK_FIRMWARE_KEYCHRON_COMMON_H
+
 #include "quantum.h"
 
 #ifdef VIA_ENABLE
@@ -50,3 +53,5 @@ typedef struct PACKED {
 
 void housekeeping_task_keychron(void);
 bool process_record_keychron(uint16_t keycode, keyrecord_t *record);
+
+#endif //QMK_FIRMWARE_KEYCHRON_COMMON_H

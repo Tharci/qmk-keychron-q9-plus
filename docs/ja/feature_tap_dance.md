@@ -237,7 +237,7 @@ enum {
     SOME_OTHER_DANCE
 };
 
-td_state_t cur_dance(qk_tap_dance_state_t *state);
+td_state_t td_cur_dance(qk_tap_dance_state_t *state);
 
 // xタップダンスのための関数。キーマップで利用できるようにするため、ここに置きます。
 void x_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -277,7 +277,7 @@ void x_reset(qk_tap_dance_state_t *state, void *user_data);
  * 3つ目の点については、'TD_DOUBLE_SINGLE_TAP' が存在しますが、これは完全にはテストされていません
  *
  */
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
+td_state_t td_cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         // キーは割り込まれていませんが、まだ押し続けられています。'HOLD' を送信することを意味します。
@@ -308,7 +308,7 @@ static td_tap_t xtap_state = {
 };
 
 void x_finished(qk_tap_dance_state_t *state, void *user_data) {
-    xtap_state.state = cur_dance(state);
+    xtap_state.state = td_cur_dance(state);
     switch (xtap_state.state) {
         case TD_SINGLE_TAP: register_code(KC_X); break;
         case TD_SINGLE_HOLD: register_code(KC_LCTRL); break;
@@ -369,7 +369,7 @@ static td_state_t td_state;
 // タップダンス関数を宣言します:
 
 // 現在のタップダンスの状態を特定するための関数
-td_state_t cur_dance(qk_tap_dance_state_t *state);
+td_state_t td_cur_dance(qk_tap_dance_state_t *state);
 
 // それぞれのタップダンスキーコードに適用する `finished` と `reset` 関数
 void altlp_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -380,7 +380,7 @@ void altlp_reset(qk_tap_dance_state_t *state, void *user_data);
 
 ```c
 // 返却するタップダンス状態を特定します
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
+td_state_t td_cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
@@ -393,7 +393,7 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
 // 定義する各タップダンスキーコードのとりうる状態を制御します:
 
 void altlp_finished(qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
+    td_state = td_cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
             register_code16(KC_LPRN);
@@ -456,7 +456,7 @@ enum {
 // タップダンスキーで使われる関数を宣言します
 
 // 全てのタップダンスに関連する関数
-td_state_t cur_dance(qk_tap_dance_state_t *state);
+td_state_t td_cur_dance(qk_tap_dance_state_t *state);
 
 // 個別のタップダンスに関連する関数
 void ql_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -467,7 +467,7 @@ void ql_reset(qk_tap_dance_state_t *state, void *user_data);
 
 ```c
 // 現在のタップダンスの状態を決定します
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
+td_state_t td_cur_dance(qk_tap_dance_state_t *state) {
     if (state->count == 1) {
         if (!state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
@@ -483,7 +483,7 @@ static td_tap_t ql_tap_state = {
 
 // タップダンスキーの動作をコントロールする関数
 void ql_finished(qk_tap_dance_state_t *state, void *user_data) {
-    ql_tap_state.state = cur_dance(state);
+    ql_tap_state.state = td_cur_dance(state);
     switch (ql_tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_QUOT);
@@ -520,7 +520,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 上記のコードは、前の例で使われたコードに似ています。注意する1つのポイントは、必要に応じてレイヤーを切り替えられるように、どのレイヤーがアクティブになっているかいつでも確認できる必要があることです。これを実現するために、引数で与えられた `layer` がアクティブなら `true` を返す `layer_state_is(layer)` を使います。
 
-`cur_dance()` と `ql_tap_state` の使い方は、上の例と似ています。
+`td_cur_dance()` と `ql_tap_state` の使い方は、上の例と似ています。
 
 `ql_finished` 関数における `case: TD_SINGLE_TAP` は、上の例と似ています。`TD_SINGLE_HOLD` の case では、`ql_reset()` と連動してタップダンスキーを押している間 `_MY_LAYER` に切り替わり、キーを離した時に `_MY_LAYER` から離れます。これは、`MO(_MY_LAYER)` に似ています。`TD_DOUBLE_TAP` の case では、`_MY_LAYER` がアクティブレイヤーかどうかを確認することによって動きます。そして、その結果に基づいてレイヤーのオン・オフをトグルします。これは `TG(_MY_LAYER)` に似ています。
 

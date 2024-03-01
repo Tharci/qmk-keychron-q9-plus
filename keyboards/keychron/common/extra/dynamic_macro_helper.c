@@ -2,9 +2,8 @@
 // Created by tharci on 1/23/24.
 //
 
-#include QMK_KEYBOARD_H
-
 #include "dynamic_macro_helper.h"
+#include QMK_KEYBOARD_H
 
 dyn_macro_t dyn_macro = {.recording = 0};
 

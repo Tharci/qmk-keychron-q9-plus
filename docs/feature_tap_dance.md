@@ -256,7 +256,7 @@ enum {
     SOME_OTHER_DANCE
 };
 
-td_state_t cur_dance(tap_dance_state_t *state);
+td_state_t td_cur_dance(tap_dance_state_t *state);
 
 // For the x tap dance. Put it here so it can be used in any keymap
 void x_finished(tap_dance_state_t *state, void *user_data);
@@ -293,7 +293,7 @@ Now, at the bottom of your `keymap.c` file, you'll need to add the following:
  * For the third point, there does exist the 'TD_DOUBLE_SINGLE_TAP', however this is not fully tested
  *
  */
-td_state_t cur_dance(tap_dance_state_t *state) {
+td_state_t td_cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
@@ -323,7 +323,7 @@ static td_tap_t xtap_state = {
 };
 
 void x_finished(tap_dance_state_t *state, void *user_data) {
-    xtap_state.state = cur_dance(state);
+    xtap_state.state = td_cur_dance(state);
     switch (xtap_state.state) {
         case TD_SINGLE_TAP: register_code(KC_X); break;
         case TD_SINGLE_HOLD: register_code(KC_LCTL); break;
@@ -385,7 +385,7 @@ static td_state_t td_state;
 // Declare your tapdance functions:
 
 // Function to determine the current tapdance state
-td_state_t cur_dance(tap_dance_state_t *state);
+td_state_t td_cur_dance(tap_dance_state_t *state);
 
 // `finished` and `reset` functions for each tapdance keycode
 void altlp_finished(tap_dance_state_t *state, void *user_data);
@@ -396,7 +396,7 @@ Below your `LAYOUT`, define each of the tapdance functions:
 
 ```c
 // Determine the tapdance state to return
-td_state_t cur_dance(tap_dance_state_t *state) {
+td_state_t td_cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
@@ -409,7 +409,7 @@ td_state_t cur_dance(tap_dance_state_t *state) {
 // Handle the possible states for each tapdance keycode you define:
 
 void altlp_finished(tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
+    td_state = td_cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
             register_code16(KC_LPRN);
@@ -478,7 +478,7 @@ enum {
 // Declare the functions to be used with your tap dance key(s)
 
 // Function associated with all tap dances
-td_state_t cur_dance(tap_dance_state_t *state);
+td_state_t td_cur_dance(tap_dance_state_t *state);
 
 // Functions associated with individual tap dances
 void ql_finished(tap_dance_state_t *state, void *user_data);
@@ -489,7 +489,7 @@ Towards the bottom of your `keymap.c`, include the following code:
 
 ```c
 // Determine the current tap dance state
-td_state_t cur_dance(tap_dance_state_t *state) {
+td_state_t td_cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (!state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
@@ -505,7 +505,7 @@ static td_tap_t ql_tap_state = {
 
 // Functions that control what our tap dance key does
 void ql_finished(tap_dance_state_t *state, void *user_data) {
-    ql_tap_state.state = cur_dance(state);
+    ql_tap_state.state = td_cur_dance(state);
     switch (ql_tap_state.state) {
         case TD_SINGLE_TAP:
             tap_code(KC_QUOT);
@@ -554,7 +554,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 The above code is similar to that used in previous examples. The one point to note is that we need to be able to check which layers are active at any time so we can toggle them if needed. To do this we use the `layer_state_is(layer)` function which returns `true` if the given `layer` is active.
 
-The use of `cur_dance()` and `ql_tap_state` mirrors the above examples.
+The use of `td_cur_dance()` and `ql_tap_state` mirrors the above examples.
 
 The `case: TD_SINGLE_TAP` in `ql_finished` is similar to the above examples. The `TD_SINGLE_HOLD` case works in conjunction with `ql_reset()` to switch to `_MY_LAYER` while the tap dance key is held, and to switch away from `_MY_LAYER` when the key is released. This mirrors the use of `MO(_MY_LAYER)`. The `TD_DOUBLE_TAP` case works by checking whether `_MY_LAYER` is the active layer, and toggling it on or off accordingly. This mirrors the use of `TG(_MY_LAYER)`.
 

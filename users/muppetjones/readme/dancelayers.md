@@ -48,7 +48,7 @@ And sets up the following tap dance:
 
 The following functions are available for use:
 
-- `cur_dance`
+- `td_cur_dance`
 
 The following tap dance enumerations are defined:
 

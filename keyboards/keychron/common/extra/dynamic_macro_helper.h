@@ -6,7 +6,6 @@
 #define QMK_FIRMWARE_DYNAMIC_MACRO_HELPER_H
 
 #include QMK_KEYBOARD_H
-
 #include "keycodes.h"
 
 typedef struct {
