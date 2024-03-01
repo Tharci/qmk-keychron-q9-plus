@@ -9,4 +9,4 @@ DYNAMIC_MACRO_ENABLE = yes
 
 VPATH += keyboards/keychron/common
 SRC += keychron_common.c
-SRC += dynamic_macro_helper.c
+SRC += ./dynamic_macro_helper.c

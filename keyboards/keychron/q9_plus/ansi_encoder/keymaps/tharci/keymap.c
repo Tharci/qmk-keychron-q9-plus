@@ -173,7 +173,7 @@ void space_num_reset_idle_timer(void) {
 
 void space_num_on(void) {
     is_space_num_on = true;
-    layer_on(LY_FN_SPACE);
+    layer_on(LY_KNOB_RGB_SPEED);
 
 #if SPACE_NUM_IDLE_TIMEOUT > 0
     space_num_reset_idle_timer();
@@ -182,7 +182,7 @@ void space_num_on(void) {
 
 void space_num_off(void) {
     is_space_num_on = false;
-    layer_off(LY_FN_SPACE);
+    layer_off(LY_KNOB_RGB_SPEED);
 }
 
 void space_num_toggle(void) {
@@ -380,7 +380,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LY_KNOB_RGB_SPEED] = LAYOUT_54_ansi(
         _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          KC_NO,
-        _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
+        _______,  KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     _______,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
@@ -401,6 +401,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [LY_FN_SPACE]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [LY_FN1]      = {ENCODER_CCW_CW(_______, _______)},
 
+    // todo: do not use layers for these, it is pretty dumb
     [LY_KNOB_MEDIA] = {ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
     [LY_KNOB_BRIG] = {ENCODER_CCW_CW(KC_BRID, KC_BRIU)},
     [LY_KNOB_RGB_MODE] = {ENCODER_CCW_CW(RGB_RMOD, RGB_MOD)},
