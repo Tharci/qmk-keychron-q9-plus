@@ -11,6 +11,7 @@ enum tap_dance {
     TD_MACRO_2,
     TD_RIGHT_SPACE,
     TD_GAMING,
+    NUM_OF_TAP_DANCES,
 };
 
 
@@ -25,30 +26,13 @@ enum tap_dance {
 #include "tap_dance_right_space.h"
 #include "layers.h"
 
-
-tap_dance_action_t tap_dance_actions[] = {
-    [TD_CAPS]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_caps_finished, td_caps_reset),
-    [TD_MACRO_1] = ACTION_TAP_DANCE_FN(td_macro_1),
-    [TD_MACRO_2] = ACTION_TAP_DANCE_FN(td_macro_2),
-    // [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_DOUBLE(KC_SPACE_NUM, MO(LY_FN_SPACE)),
-    [TD_RIGHT_SPACE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_right_space_finished, td_right_space_reset),
-    [TD_GAMING]      = ACTION_TAP_DANCE_FN_ADVANCED(td_gaming_each, td_gaming_finished, td_gaming_reset),
+tap_dance_action_t tap_dance_actions[NUM_OF_TAP_DANCES] = {
+    [TD_CAPS]        = TD_ACTION_CAPS,
+    [TD_MACRO_1]     = TD_ACTION_MACRO_1,
+    [TD_MACRO_2]     = TD_ACTION_MACRO_2,
+    [TD_RIGHT_SPACE] = TD_ACTION_RIGHT_SPACE,
+    [TD_GAMING]      = TD_ACTION_GAMING,
 };
-
-
-#if defined(ENCODER_MAP_ENABLE)
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [LY_BASE] = {ENCODER_CCW_CW(KC_KNOB_LEFT, KC_KNOB_RIGHT)},
-    [LY_FNC]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FNC_SH] = {ENCODER_CCW_CW(_______, _______)},
-    [LY_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FN_GAMING]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FN_SPACE]  = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FN1]      = {ENCODER_CCW_CW(_______, _______)},
-    [LY_FN2]      = {ENCODER_CCW_CW(_______, _______)},
-    [LY_SPACE_NUM] = {ENCODER_CCW_CW(_______, _______)},
-};
-#endif
 
 #endif
 

@@ -15,7 +15,8 @@ enum layers {
     LY_FN_SPACE,
     LY_FN1,
     LY_FN2,
-    LY_SPACE_NUM
+    LY_SPACE_NUM,
+    NUMBER_OF_LAYERS
 };
 
 #endif // QMK_FIRMWARE_LAYERS_H
