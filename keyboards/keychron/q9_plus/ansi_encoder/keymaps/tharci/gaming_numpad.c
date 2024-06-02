@@ -18,10 +18,5 @@ void rgb_matrix_gaming_numpad(void) {
             rgb_matrix_set_color(numpad_keys[i], RGB_WHITE);
         }
     }
-    else {
-        for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
-            rgb_matrix_set_color(numpad_keys[i], RGB_BLACK);
-        }
-    }
 }
 

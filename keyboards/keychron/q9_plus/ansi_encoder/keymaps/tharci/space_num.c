@@ -54,9 +54,6 @@ void rgb_matrix_space_num(void) {
     if (space_num_is_on()) {
         rgb_matrix_set_color(46, RGB_WHITE);
     }
-    else {
-        rgb_matrix_set_color(46, RGB_BLACK);
-    }
 }
 
 
