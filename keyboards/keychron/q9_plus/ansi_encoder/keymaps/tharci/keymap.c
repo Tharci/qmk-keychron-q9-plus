@@ -8,6 +8,7 @@
 #include "layers.h"
 #include "space_num.h"
 #include "tap_dance.h"
+#include "gaming_numpad.h"
 
 #include "extra/caps_word.h"
 #include "extra/common.h"
@@ -15,24 +16,26 @@
 #include "extra/tabloop.h"
 #include "extra/extra_keycodes.h"
 
+
 /**** Caps Word configuration ****/
 
-uint16_t caps_word_allow_keys[] = {
-    MO(LY_FN_SPACE),
-    TD(TD_RIGHT_SPACE),
-    TD(TD_CAPS),
-    KC_UNDERSCORE,
-    KC_MINUS,
-    SC_LSPO
-};
-
-
 bool caps_extra_key_is_allowed(uint16_t keycode) {
+    static const uint16_t caps_word_allow_keys[] = {
+        MO(LY_FN_SPACE),
+        TD(TD_RIGHT_SPACE),
+        TD(TD_CAPS),
+        KC_UNDERSCORE,
+        KC_MINUS,
+        SC_LSPO
+    };
+
     for (int i = 0; i < ARRAY_SIZE(caps_word_allow_keys); i++) {
         if (caps_word_allow_keys[i] == keycode) return true;
     }
     return false;
 }
+
+/**** ****/
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
@@ -62,28 +65,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 void housekeeping_task_user(void) {
     housekeeping_task_keychron();
     housekeeping_task_space_num();
-}
-
-void led_set_gaming_numpad(uint8_t led_state) {
-    // Keep num lock turned on for layer LY_GAMING_NUMPAD
-    if (IS_LAYER_ON(LY_GAMING_NUMPAD) && !(led_state & (1<<HID_KEYBOARD_LED_NUMLOCK))) {
-        tap_code(KC_LNUM);
-    }
-}
-
-
-void rgb_matrix_gaming_numpad(void) {
-    int numpad_keys[] = {40, 50, 51, 52};
-    if (IS_LAYER_ON(LY_GAMING_NUMPAD)) {
-        for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
-            rgb_matrix_set_color(numpad_keys[i], RGB_WHITE);
-        }
-    }
-    else {
-        for (int i = 0; i < sizeof(numpad_keys) / sizeof(numpad_keys[0]); i++) {
-            rgb_matrix_set_color(numpad_keys[i], RGB_BLACK);
-        }
-    }
 }
 
 
