@@ -83,7 +83,6 @@ void led_set_user(uint8_t led_state) {
 }
 
 #if defined(ENCODER_MAP_ENABLE)
-// todo: somehow define only one base behaviour, instead of this chunky list
 const uint16_t PROGMEM encoder_map[NUMBER_OF_LAYERS][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [0 ... NUMBER_OF_LAYERS - 1] = {ENCODER_CCW_CW(_______, _______)}, // default behavior
     [LY_BASE] = {ENCODER_CCW_CW(KC_KNOB_LEFT, KC_KNOB_RIGHT)},
