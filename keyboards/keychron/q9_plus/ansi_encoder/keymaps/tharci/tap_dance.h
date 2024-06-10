@@ -21,7 +21,7 @@ enum tap_dance {
 #include "tap_dance.h"
 #include "extra/extra_keycodes.h"
 #include "tap_dance_caps.h"
-#include "tap_dance_dynamic_macros.h"
+#include "extra/tap_dance_dynamic_macros.h"
 #include "tap_dance_gaming_layer.h"
 #include "tap_dance_right_space.h"
 #include "layers.h"

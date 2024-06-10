@@ -8,7 +8,6 @@ void td_macro_1(tap_dance_state_t *state, void *user_data) {
         dyn_macro_play(1);
     } else if (state->count == 2) {
         dyn_macro_toggle(1);
-
     }
 }
 
