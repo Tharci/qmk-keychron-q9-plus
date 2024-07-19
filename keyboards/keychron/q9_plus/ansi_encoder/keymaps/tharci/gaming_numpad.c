@@ -2,6 +2,8 @@
 #include "quantum.h"
 #include "layers.h"
 
+// TODO: This feature is not self-contained. It depends on tap_dance_caps to deregister KC_LALT.
+
 
 void led_set_gaming_numpad(uint8_t led_state) {
     // Keep num lock turned on for layer LY_GAMING_NUMPAD
