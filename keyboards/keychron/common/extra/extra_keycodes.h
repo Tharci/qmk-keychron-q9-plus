@@ -26,6 +26,9 @@ enum knob_keycodes {
     /*** tabloop ***/
     KC_TABLOOP,
 
+    /*** duck ***/
+    KC_DUCK,
+
     /*** safe range ***/
     KC_EXTRA_SAFE_RANGE,
 };

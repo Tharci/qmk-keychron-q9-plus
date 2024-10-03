@@ -7,6 +7,7 @@ COMMAND_ENABLE = no  # needed for CAPS_WORD_ENABLE
 CAPS_WORD_ENABLE = yes
 DYNAMIC_MACRO_ENABLE = yes
 SLEEP_LED_ENABLE = yes
+RGB_MATRIX_ENABLE = yes
 
 VPATH += keyboards/keychron/common
 SRC += keychron_common.c
