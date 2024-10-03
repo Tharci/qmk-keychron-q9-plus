@@ -7,7 +7,7 @@
 
 #include "keychron_common.h"
 
-enum knob_keycodes {
+enum extra_keycodes {
     /*** knob key presses ***/
     KC_KNOB_LEFT = KEYCHRON_SAFE_RANGE,
     KC_KNOB_RIGHT,
@@ -25,9 +25,6 @@ enum knob_keycodes {
 
     /*** tabloop ***/
     KC_TABLOOP,
-
-    /*** duck ***/
-    KC_DUCK,
 
     /*** safe range ***/
     KC_EXTRA_SAFE_RANGE,

@@ -9,6 +9,8 @@
 #include "space_num.h"
 #include "tap_dance.h"
 #include "gaming_numpad.h"
+#include "extra_keycodes_user.h"
+#include "quack.h"
 
 #include "extra/caps_word.h"
 #include "extra/common.h"
@@ -49,16 +51,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         return false;
     }
 
-    // put the knob back to the default state
-    if (!record->event.pressed && KC_IS_KNOB_MODE(keycode) && keycode != KC_KNOB_VOLUME) {
-        set_knob_mode(KNOB_VOLUME);
-    }
-
     if (!process_record_knob(keycode, record)) {
         return false;
     }
-    if (keycode == KC_DUCK && record->event.pressed) {
-        tap_code16(LSFT(LCTL(LALT(KC_Q))));
+
+    if (!process_record_quack(keycode, record)) {
+        return false;
+    }
+
+    // put the knob back to the default state
+    if (!record->event.pressed && KC_IS_KNOB_MODE(keycode) && keycode != KC_KNOB_VOLUME) {
+        set_knob_mode(KNOB_VOLUME);
     }
 
     return true;

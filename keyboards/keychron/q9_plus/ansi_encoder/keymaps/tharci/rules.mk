@@ -27,3 +27,4 @@ SRC += tap_dance_right_space.c
 SRC += tap_dance_gaming_layer.c
 SRC += gaming_mode.c
 SRC += gaming_numpad.c
+SRC += quack.c
