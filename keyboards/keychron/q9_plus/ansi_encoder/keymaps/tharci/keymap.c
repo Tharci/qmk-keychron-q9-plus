@@ -79,6 +79,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_caps();
     rgb_matrix_space_num();
     rgb_matrix_gaming_numpad();
+    rgb_matrix_quack(led_min, led_max);
     return true;
 }
 #endif
