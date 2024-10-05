@@ -27,7 +27,7 @@ bool rgb_matrix_quack(uint8_t led_min, uint8_t led_max) {
 
     // set color of key: DUCK_LED_INDEX
     // it should be yellow and have led_brg brightness
-    RGB color = hsv_to_rgb_nocie((HSV){50, 255, led_brg});
+    RGB color = hsv_to_rgb_nocie((HSV){35, 255, led_brg});
     rgb_matrix_set_color(DUCK_LED_INDEX, color.r, color.g, color.b);
     return false;
 }
