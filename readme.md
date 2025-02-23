@@ -16,28 +16,6 @@ This project is a fork of the QMK framework for the [Keychron Q9 QMK Custom Mech
 1. **Reset Key**: Hold down the key located at *K00*, programmed as *TAB* while plugging in the keyboard.
 2. Flash the firmware using QMK Toolbox.
 
-## Layout
-
-### `Caps`
-
-**Single tap** on `Caps` activates *Caps Word*.
-
-**Single tap hold** on `Caps` activates *Navigation layer*.
-
-**Double tap** on `Caps` toggles caps lock.
-
-**Double tap hold** on `Caps` activates *Navigation layer* with shift modifier applied.
-
-### `Left space`
-
-`Left space` is just a regular space. *Tabloop* can be activated by `Caps`+`Left space` to loop between windows.
-
-### `Right space`
-
-**Single tap** on `Right space` activates *Space Num*.
-
-**Single tap hold** on `Right space` activates *Numeric layer*.
-
 ## Features
 
 ### Caps Word
@@ -78,10 +56,32 @@ Keycodes:
 
 ### Tabloop
 
-*Tabloop* is used to loop between windows.
+*Tabloop* is used to loop between windows by tapping on a key.
 
 ### Gaming Numpad
 
-*Gaming Numpad* switches the arrow keys to the numpad arrows and lights them up.
+*Gaming Numpad* switches the arrow keys to the numpad arrows and lights them up. Rather useful for flying in GTA V.
+
+## Layout
+
+### `Caps`
+
+**Single tap** on `Caps` activates *Caps Word*.
+
+**Single tap hold** on `Caps` activates *Navigation layer*. This layer includes keys for navigating in text editors: arrows, home, end, page up, page down, mouse back, mouse forward.
+
+**Double tap** on `Caps` toggles caps lock.
+
+**Double tap hold** on `Caps` activates *Navigation layer* with shift modifier applied. Can be used to select text.
+
+### `Left space`
+
+`Left space` is just a regular space. *Tabloop* can be activated by `Caps`+`Left space` to loop between windows.
+
+### `Right space`
+
+**Single tap** on `Right space` activates *Space Num*.
+
+**Single tap hold** on `Right space` activates *Numeric layer*.
 
 
