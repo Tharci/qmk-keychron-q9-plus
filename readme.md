@@ -1,8 +1,8 @@
 # Keychron Q9 Plus
 
-![Keychron Q9 Plus](https://i.imgur.com/Yp9K7Gsh.jpg)
-
 This project is a fork of the QMK framework for the [Keychron Q9 QMK Custom Mechanical Keyboard](https://www.keychron.com/products/keychron-q9-qmk-custom-mechanical-keyboard).
+
+![image](https://github.com/user-attachments/assets/b17306ab-0226-42f7-9154-3ea42238fa54)
 
 
 ## Build
