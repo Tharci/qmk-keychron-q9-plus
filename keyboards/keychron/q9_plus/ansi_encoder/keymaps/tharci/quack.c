@@ -5,7 +5,7 @@
 
 /*
 Play an effect on the duck key whenever it is pressed.
-They key lights up an slowly fades out.
+They key lights up and slowly fade out.
 */
 
 // state variables
