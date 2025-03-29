@@ -10,7 +10,7 @@ static td_tap_t td_tap_state = TD_INIT_STATE;
 
 void td_lalt_release(tap_dance_state_t* state, void* user_data) {
     if (!state->finished && !state->interrupted) {
-        tap_code(KC_BACKSPACE);
+        tap_code(KC_ENTER);
     }
 }
 
