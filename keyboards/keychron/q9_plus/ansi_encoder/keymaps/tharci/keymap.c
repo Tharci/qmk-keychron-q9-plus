@@ -107,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LY_FNC] = LAYOUT_54_ansi(
         KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          _______,
-        _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
+        _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, KC_COMMENT_OUT, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
         _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 

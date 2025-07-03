@@ -8,6 +8,7 @@
 #define KC_UNDO LCTL(KC_Z)
 #define KC_SAVE LCTL(KC_S)
 #define KC_REDO LCTL(KC_Y)
+#define KC_COMMENT_OUT LCTL(KC_DOT)
 
 void rgb_matrix_caps(void);
 

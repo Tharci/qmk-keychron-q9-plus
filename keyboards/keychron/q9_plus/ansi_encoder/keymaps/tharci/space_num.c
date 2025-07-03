@@ -74,6 +74,5 @@ void process_space_num(uint16_t keycode, keyrecord_t* record) {
         // Deactivate Space Num
         default:
             space_num_off();
-            return;
     }
 }
