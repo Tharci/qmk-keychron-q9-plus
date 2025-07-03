@@ -9,6 +9,8 @@
 #define KC_SAVE LCTL(KC_S)
 #define KC_REDO LCTL(KC_Y)
 #define KC_COMMENT_OUT LCTL(KC_DOT)
+#define KC_COPY_RAW LSFT(LCTL(KC_C))
+#define KC_PASTE_RAW LSFT(LCTL(KC_V))
 
 void rgb_matrix_caps(void);
 
