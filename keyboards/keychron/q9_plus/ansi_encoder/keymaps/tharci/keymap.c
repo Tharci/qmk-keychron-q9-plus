@@ -107,14 +107,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LY_FNC] = LAYOUT_54_ansi(
         KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          _______,
-        _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, KC_COMMENT_OUT, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
-        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
+        _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, KC_SEARCH, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
+        _______,            _______,  _______, _______, KC_COMMENT_OUT_LINES, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FNC_SH] = LAYOUT_54_ansi(
         _______,   _______,  _______, KC_COPY_RAW, KC_PASTE_RAW, _______, _______, _______, LSFT(KC_UP), _______, _______,  LSFT(KC_HOME), LSFT(KC_END),  _______,          _______,
-        _______,  _______,  _______,  _______, _______, _______, _______, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RGHT), LSFT(KC_PGUP),  LSFT(KC_PGDN),               _______,          _______,
-        _______,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______, _______,
+        _______,  _______,  _______,  _______, _______, KC_SEARCH_ALL, _______, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RGHT), LSFT(KC_PGUP),  LSFT(KC_PGDN),               _______,          _______,
+        _______,            _______,  _______, _______, KC_COMMENT_OUT_SELECTED, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_GAMING] = LAYOUT_54_ansi(
