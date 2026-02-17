@@ -8,7 +8,7 @@
 #include "extra/extra_keycodes.h"
 
 enum extra_keycodes_user {
-    KC_DUCK = KC_EXTRA_SAFE_RANGE,
+    KC_QUACK = KC_EXTRA_SAFE_RANGE,
 };
 
 #endif // QMK_FIRMWARE_EXTRA_KEYCODES_USER_H
