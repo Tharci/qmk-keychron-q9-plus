@@ -103,10 +103,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,     KC_RBRC,  KC_BSPC,          KC_KNOB_PRESS,
         TD(TD_CAPS), KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,               KC_ENT,           KC_QUACK,
         SC_LSPO,           KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,               SC_RSPC, KC_UP,
-        KC_LCTL, KC_LWIN,  TD(TD_LALT),  TD(TD_GAMING),      KC_SPC,                    TD(TD_RIGHT_SPACE),           KC_RALT,  MO(LY_FN1), MO(LY_FN2),  KC_LEFT, KC_DOWN, KC_RGHT),
+        KC_LCTL, LWIN(KC_SPC),  TD(TD_LALT),  TD(TD_GAMING),      KC_SPC,                    TD(TD_RIGHT_SPACE),           KC_RALT,  MO(LY_FN1), /*MO(LY_FN2)*/KC_LWIN,  KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LY_FNC] = LAYOUT_54_ansi(
-        KC_ESC,   _______,  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          _______,
+        KC_ESC,   LWIN(LSFT(KC_S)),  KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, _______, KC_MS_BTN4, KC_UP, KC_MS_BTN5, _______,  KC_HOME,     KC_END,  KC_DEL,          _______,
         _______,  _______,  KC_SAVE,  KC_UNDO, KC_REDO, KC_SEARCH, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGUP,  KC_PGDN,               _______,          _______,
         _______,            _______,  _______, _______, KC_COMMENT_OUT_LINES, _______, _______, _______, _______, _______,  _______,               _______, _______,
         _______, _______,  _______,  KC_LCTL,          KC_TABLOOP,                   _______,          _______,  _______,     _______,  _______, _______, _______),
@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,   _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          _______,
         _______,  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               _______,          _______,
         KC_LSFT,            _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,               KC_RSFT, _______,
-        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
+        _______, _______,  KC_LALT,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY_FN_GAMING] = LAYOUT_54_ansi(
         KC_ESC, KC_F1,    KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,      KC_F12,   _______,          _______,
