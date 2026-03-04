@@ -24,6 +24,7 @@ SRC += extra/tap_dance_dynamic_macros.c
 SRC += space_num.c
 SRC += tap_dance_caps.c
 SRC += tap_dance_right_space.c
+SRC += tap_dance_win.c
 SRC += tap_dance_gaming_layer.c
 SRC += tap_dance_lalt.c
 SRC += tap_dance_lctrl.c

@@ -13,6 +13,7 @@ enum tap_dance {
     TD_GAMING,
     TD_LALT,
     TD_LCTRL,
+    TD_WIN,
     NUM_OF_TAP_DANCES,
 };
 
@@ -28,6 +29,7 @@ enum tap_dance {
 #include "tap_dance_right_space.h"
 #include "tap_dance_lalt.h"
 #include "tap_dance_lctrl.h"
+#include "tap_dance_win.h"
 #include "layers.h"
 
 tap_dance_action_t tap_dance_actions[NUM_OF_TAP_DANCES] = {
@@ -38,6 +40,7 @@ tap_dance_action_t tap_dance_actions[NUM_OF_TAP_DANCES] = {
     [TD_GAMING]      = TD_ACTION_GAMING,
     [TD_LALT]        = TD_ACTION_LALT,
     [TD_LCTRL]       = TD_ACTION_LCTRL,
+    [TD_WIN]         = TD_ACTION_WIN,
 };
 
 #endif

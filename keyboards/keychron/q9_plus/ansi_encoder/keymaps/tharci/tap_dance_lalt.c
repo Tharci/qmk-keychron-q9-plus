@@ -1,8 +1,6 @@
 #include "tap_dance_lalt.h"
-#include "layers.h"
 #include "extra/tap_dance_helper.h"
 #include "quantum.h"
-#include <process_dynamic_macro.h>
 
 
 static td_tap_t td_tap_state = TD_INIT_STATE;
