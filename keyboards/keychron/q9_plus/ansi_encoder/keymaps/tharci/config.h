@@ -1,3 +1,5 @@
+#pragma once
+
 #define RGBLIGHT_SLEEP
 
 #define RGBLIGHT_SAT_STEP 8
